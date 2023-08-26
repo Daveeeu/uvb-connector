@@ -29,11 +29,11 @@ class UVBConnector {
         }
     }
 
-    async _checkUVBService(email) {
+    async _checkUVBService(email, threshold) {
         try {
             const hashedEmail = await this._hashEmail(email);
             const payload = {
-                threshold: 0.5
+                threshold: threshold
             };
 
             const response = await axios.post(`${this.baseUrl}${hashedEmail}`, payload, {
