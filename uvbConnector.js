@@ -29,7 +29,7 @@ class UVBConnector {
         }
     }
 
-    async _checkUVBService(email,threshold = 0.5) {
+    async _checkUVBService(email,threshold) {
         try {
             const hashedEmail = await this._hashEmail(email);
             const payload = {
