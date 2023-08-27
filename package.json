@@ -1,6 +1,6 @@
 {
   "name": "uvb-connector",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Az UVBConnector egy Node.js osztály, amely az Utánvét Ellenőr szolgáltatáshoz való kommunikációt valósítja meg. Ez lehetővé teszi az Utánvét Ellenőr API-ján keresztül utánvétes fizetési tranzakciók ellenőrzését és rögzítését.",
   "main": "uvbConnector.js",
   "scripts": {

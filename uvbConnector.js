@@ -29,11 +29,11 @@ class UVBConnector {
         }
     }
 
-    async _checkUVBService(email) {
+    async _checkUVBService(email,threshold = 0.5) {
         try {
             const hashedEmail = await this._hashEmail(email);
             const payload = {
-                threshold: 0.5
+                threshold: threshold
             };
 
             const response = await axios.post(`${this.baseUrl}${hashedEmail}`, payload, {
@@ -66,15 +66,7 @@ class UVBConnector {
 
             this.response = response.data;
         } catch (error) {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    throw new Error(`Hibás API kulcs. ${error.response.data.details}`);
-                } else {
-                    throw new Error(`Ismeretlen hiba történt. ${error.response.data.details}`);
-                }
-            } else {
-                throw new Error('Kommunikációs hiba.');
-            }
+            throw new Error(`UVB Service ellenőrzés hiba: ${error.message}`);
         }
     }
 
