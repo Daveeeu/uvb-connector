@@ -21,6 +21,10 @@ class UVBConnector {
     }
 
     async post(email, outcome) {
+        if (!this._validateEmail(email)) {
+            throw new Error('Hibás e-mail cím.');
+        }
+
         try {
             await this._submitToUVBService(email, outcome);
             return this.response;
@@ -29,11 +33,11 @@ class UVBConnector {
         }
     }
 
-    async _checkUVBService(email) {
+    async _checkUVBService(email,threshold) {
         try {
             const hashedEmail = await this._hashEmail(email);
             const payload = {
-                threshold: 0.5
+                threshold: threshold
             };
 
             const response = await axios.post(`${this.baseUrl}${hashedEmail}`, payload, {
@@ -66,19 +70,13 @@ class UVBConnector {
 
             this.response = response.data;
         } catch (error) {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    throw new Error(`Hibás API kulcs. ${error.response.data.details}`);
-                } else {
-                    throw new Error(`Ismeretlen hiba történt. ${error.response.data.details}`);
-                }
-            } else {
-                throw new Error('Kommunikációs hiba.');
-            }
+            throw new Error(`UVB Service ellenőrzés hiba: ${error.message}`);
         }
     }
 
     _hashEmail(email) {
+        email = email.replace(/(.+)\+.*(@.+)/, '$1$2');
+        email = email.toLowerCase()
         return require('crypto').createHash('sha256').update(email).digest('hex');
     }
 
@@ -87,5 +85,4 @@ class UVBConnector {
         return emailPattern.test(email);
     }
 }
-
 module.exports = UVBConnector;

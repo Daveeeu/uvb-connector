@@ -4,13 +4,14 @@ Az UVBConnector egy Node.js osztály, amely az Utánvét Ellenőr szolgáltatás
 ## Telepítés
 A következő lépésekkel telepítheted az UVBConnector-t a projektbe:
 
-1. Telepítsd a axios csomagot a HTTP kérésekhez:
+1. Telepítsd a csomagot:
 ```bash
-npm install axios
+npm install uvbconnector
 ```
+
 2. Másold be az UVBConnector osztályt a projektbe.
 ```javascript
-const UVBConnector = require('UVBConnector'); // Az elérési útvonalat állítsd be a fájl helyére megfelelően
+const UVBConnector = require('uvbConnector'); // Az elérési útvonalat állítsd be a fájl helyére megfelelően
 const publicApiKey = 'PUB_API_KEY'; // helyettesítsd a valós API kulccsal
 const privateApiKey = 'PRIV_API_KEY'; // helyettesítsd a valós API kulccsal
 
@@ -36,13 +37,14 @@ Ellenőrzi az Utánvét Ellenőr szolgáltatáson keresztül a megadott e-mail c
 
 ```javascript
 try {
-    const response = await connector.get('example@example.com');
+    const response = await connector.get('example@example.com', 0.5);
     console.log(response);
 } catch (error) {
     console.error(error.message);
 }
 ```
 * **email** (string): Az ellenőrizni kívánt e-mail cím.
+* **threshold** (float): A sikeres ellenőrzéshez szükséges reputáció minimum értéke (küszöbérték). [Mi a küszöbérték?](https://utanvet-ellenor.hu/knowledge-base/alapok/mi-a-kuszobertek-hogyan-mukodik)
 
 **post(email, outcome)**
 Rögzíti az Utánvét Ellenőr szolgáltatáson keresztül a tranzakció kimenetelét.
